@@ -1,0 +1,19 @@
+[Unit]
+Description=MCN validator
+Wants=network-online.target
+After=network-online.target mcn-beacon.service
+
+[Service]
+Type=simple
+User=@USER@
+WorkingDirectory=@ROOT@
+ExecStart=@ROOT@/scripts/run-validator.sh
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=180
+KillSignal=SIGINT
+LimitNOFILE=65536
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
