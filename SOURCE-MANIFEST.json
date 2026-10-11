@@ -1,15 +1,9 @@
 {
-  "source": "Previous chat: \u041d\u0430\u0439\u0442\u0438 \u043a\u043e\u043d\u0442\u0435\u043a\u0441\u0442 \u043e MCN blockchain; local mcn-launch-6 bundle",
-  "status": "Historical local bundle; deployed network correspondence unverified",
+  "source": "Recovered mcn-launch-6 bundle; user-supplied genesis files on 2026-10-12",
+  "notes": [
+    "02-genesis.sh adapted to use environment TREASURY; deployment files removed."
+  ],
   "files": [
-    {
-      "path": "network/README.md",
-      "sha256": "0d3a217f0600df15ccb6adc13ee0217962a8d73af0c73d58a64992395a890c32"
-    },
-    {
-      "path": "network/START-HERE.md",
-      "sha256": "54edb9b57df67be8cfd218b673482b88bc6e74aaf4c42aa89081213ca466ecac"
-    },
     {
       "path": "network/VALIDATION.md",
       "sha256": "27dbf97abdfc40ea765192a38ad9e91d8fd4368fc441371152dc678655b82083"
@@ -39,80 +33,32 @@
       "sha256": "64b7b26f1cff54be10c9cff1fdb2d93c88c32c217d4fb808d801c57f2dcfb8a8"
     },
     {
-      "path": "network/nginx/rpc.mcnchain.org.conf",
-      "sha256": "41882a18a146ac9369e297567c083608a29e8f287d1f1babdc4b64e8f33f8485"
+      "path": "network/genesis/config.yaml",
+      "sha256": "5a67171927ce12958985237182e9233abab0601d921e81b13c89cd5f3c47b050"
     },
     {
-      "path": "network/node.env.example",
-      "sha256": "b305c319eddd83cb9a6de5d2a0ccf24651809371b77e8d99e35ace26c397a742"
+      "path": "network/genesis/genesis.json",
+      "sha256": "21a9e69c91734d9da95edd4566ef37faf36c624e5da036b7401c62b6f69b3ffa"
+    },
+    {
+      "path": "network/genesis/genesis.ssz",
+      "sha256": "f7fda736db072137e6fab41219f286fd0bd2772c82e74923b395b858f1368529"
     },
     {
       "path": "network/requirements.txt",
       "sha256": "a3fc98aea75d92311596e2632db99a491e4c5afa2062ed737c8e9fb91cb4344b"
     },
     {
-      "path": "network/scripts/01-install.sh",
-      "sha256": "db9781b9440094cf9436948dc27920b1bb7791cffdaa86f74332034394806858"
-    },
-    {
       "path": "network/scripts/02-genesis.sh",
-      "sha256": "519b468c96c718b2e1324abacfa777689d03895f0867450fa4408d656f61a76a"
-    },
-    {
-      "path": "network/scripts/03-init.sh",
-      "sha256": "2500974e5a8e39f739967e26ef43c610b4beb3970d2ff0fa2084f0466bfc450b"
-    },
-    {
-      "path": "network/scripts/04-systemd.sh",
-      "sha256": "b991edbfbbac701f47d58b381196df477e1a46ae64aa2720cbb5879f6060da41"
-    },
-    {
-      "path": "network/scripts/05-check.sh",
-      "sha256": "d91a2ae9d1f35a9e46dcde559ae362daf1c52441e95aa4ce3f8dff78f5ba2820"
-    },
-    {
-      "path": "network/scripts/run-beacon.sh",
-      "sha256": "75f7d97e83e9ec89c347bc8e7f530e6648abf0014f35d125600c9297b5c6edda"
-    },
-    {
-      "path": "network/scripts/run-geth.sh",
-      "sha256": "5dc0a2cf134d3a72e85e68c3b323afcc787ef9d17e0db83541f0f8a516b203ac"
-    },
-    {
-      "path": "network/scripts/run-validator.sh",
-      "sha256": "daa60153b96c7e60ba496a2f0159ebf97265a9dcf247912dbe32ee8ecc818306"
-    },
-    {
-      "path": "network/systemd/mcn-beacon.service",
-      "sha256": "bf48cae3c48f0eebbffed461d7ea0b1db6f3916847a198fc8a22d6b44df73607"
-    },
-    {
-      "path": "network/systemd/mcn-geth.service",
-      "sha256": "bd432d7956ea3e1e46cf25822d88ed24c491f59e261330c21c3be77c31b50e29"
-    },
-    {
-      "path": "network/systemd/mcn-validator.service",
-      "sha256": "f2426f382c0f20f721bfa729cac84720f244f25daf79ed70d9d5a3d0f38b0cce"
+      "sha256": "45c85cb27bfe245b6f41a28180f3a4d2048a35fe0fd92343ead891e3d0b93a51"
     },
     {
       "path": "network/tools/prepare.py",
       "sha256": "a09bb6b8373c3a15502934ad9ab57727d01b0773b3c67b76da413debdfd2b6be"
     },
     {
-      "path": "network/tools/set-beacon-peer.py",
-      "sha256": "d6f099046f01453503a9d667a7a18932307abb5404ab0aae9c5e0813917be39a"
-    },
-    {
-      "path": "network/tools/set-geth-peer.py",
-      "sha256": "15534831b5e73de46588a7a114134e1550da0e1b13ed4cef8be51d95865c3886"
-    },
-    {
       "path": "network/tools/verify-genesis.py",
       "sha256": "cb478eaf8dae3a319349eb75676db869731432476834558adde1ba8603cecb84"
-    },
-    {
-      "path": "network/tools/verify-rpc.py",
-      "sha256": "f9c3e9c14e9a7d0cedb6cc38227e4cba64a6c38f528dd725542271689e34610c"
     }
   ]
 }

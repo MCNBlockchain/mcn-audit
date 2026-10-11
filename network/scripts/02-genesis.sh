@@ -2,10 +2,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 umask 077
-source node.env
 : "${TREASURY:?Treasury is required}"
 [[ ! -e consensus/genesis.ssz ]] || { echo 'Genesis already exists; refusing regeneration'; exit 1; }
-# Set once on server A, with enough time to copy to B and initialize both nodes.
+# Audit generation workflow: uses fresh random validator keys.
 GENESIS_TIME=${GENESIS_TIME:-$(( $(date +%s) + 7200 ))}
 .venv/bin/python tools/prepare.py --root . --treasury "$TREASURY" --genesis-time "$GENESIS_TIME"
 bin/prysmctl testnet generate-genesis \

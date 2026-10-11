@@ -1,37 +1,34 @@
 # MCN Blockchain — Audit Preparation
 
-Historical source and configuration bundle recovered from the previous MCN chat.
-This repository is an audit preparation package, not an audit report or certification.
+Audit package containing the deposit contract, network parameters, user-supplied
+genesis files and historical genesis generation tools. This is not an audit report.
 
-## Scope
+## Contents
 
-- `network/contracts/`: deposit contract, compiled artifact, system allocation and upstream provenance.
-- `network/consensus/config.yaml`: consensus parameters.
-- `network/tools/` and `network/scripts/`: genesis preparation, validation and node operation.
-- `network/systemd/` and `network/nginx/`: deployment configuration.
-- `SOURCE-MANIFEST.json`: SHA-256 hashes of recovered files.
+- `network/contracts/`: Solidity source, ABI, bytecode, system allocations and provenance.
+- `network/genesis/`: user-supplied execution genesis, consensus genesis and configuration.
+- `network/consensus/config.yaml`: configuration used by the historical generator; identical to the supplied configuration.
+- `network/tools/prepare.py`: genesis allocation and validator/deposit generation logic.
+- `network/tools/verify-genesis.py`: historical checks of generated JSON state and deposits.
+- `network/scripts/02-genesis.sh`: generation workflow; provide TREASURY through the environment.
+- `network/requirements.txt`: Python generation dependencies.
+- `network/VALIDATION.md`: historical validation limitations.
+- `AUDIT-SCOPE.md`: audit scope and missing evidence.
+- `GENESIS-VERIFICATION.json`: preliminary checks of supplied files.
+- `SOURCE-MANIFEST.json`: current file hashes and source attribution.
 
-Client versions recorded by the bundle: Geth 1.17.6 and Prysm 7.2.0.
-The clients' complete source trees and exact commit SHAs are not included.
-The deployment correspondence and reproducibility of this package remain unverified.
+Recorded client versions: Geth 1.17.6 and Prysm 7.2.0. Exact commit SHAs,
+client source changes and reproducible builds remain to be supplied.
+Live deployment correspondence and full SSZ validation remain unverified.
 
-## Recorded network parameters
+Generation tools require a prepared Python environment and Prysm prysmctl.
+They generate new random keys and a new genesis, and cannot recreate the supplied
+genesis byte-for-byte without its original public deposit inputs.
+The historical verifier expects generated JSON state and deposit data, which are
+not included, and has not been run against the supplied SSZ.
+The generation wrapper was adapted to accept TREASURY from the environment;
+server installation, startup and peer-management files were removed.
 
-Chain ID 2325; native currency MCN; 18 decimals; 12-second slots;
-32 slots per epoch; activation balance 10,000 MCN; minimum deposit 250 MCN;
-six genesis validators; initial allocation 120,000,000 MCN.
-These are historical bundle values, not a live network assertion.
-
-## Before audit
-
-See [AUDIT-SCOPE.md](AUDIT-SCOPE.md) for missing evidence and required checks.
-Existing launch instructions are preserved in `network/README.md`.
-They contain stale references to five validators and a 3/2 split: the six-validator
-revision records a 3/3 split. Resolve this discrepancy before using the instructions.
-
-Do not commit validator keys, keystore passwords, JWT secrets or node databases.
-User-provided genesis and configuration are included in `network/genesis/`.
-Initial comparisons are recorded in `GENESIS-VERIFICATION.json`; live deployment
-correspondence and full SSZ validation remain unverified.
-Upstream license information is preserved under `network/contracts/`;
+Do not commit private keys, keystore passwords or JWT secrets.
+Upstream license information is preserved in `network/contracts/`;
 no project-wide license has been selected by the owner.
