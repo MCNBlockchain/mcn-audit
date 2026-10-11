@@ -1,34 +1,46 @@
-# MCN Blockchain — Audit Preparation
+# MCN Blockchain
 
-Audit package containing the deposit contract, network parameters, user-supplied
-genesis files and historical genesis generation tools. This is not an audit report.
+Proof-of-stake network with native currency MCN and chain ID 2325.
 
-## Contents
+## Network parameters
 
-- `network/contracts/`: Solidity source, ABI, bytecode, system allocations and provenance.
-- `network/genesis/`: user-supplied execution genesis, consensus genesis and configuration.
-- `network/consensus/config.yaml`: configuration used by the historical generator; identical to the supplied configuration.
-- `network/tools/prepare.py`: genesis allocation and validator/deposit generation logic.
-- `network/tools/verify-genesis.py`: historical checks of generated JSON state and deposits.
-- `network/scripts/02-genesis.sh`: generation workflow; provide TREASURY through the environment.
-- `network/requirements.txt`: Python generation dependencies.
-- `network/VALIDATION.md`: historical validation limitations.
-- `AUDIT-SCOPE.md`: audit scope and missing evidence.
-- `GENESIS-VERIFICATION.json`: preliminary checks of supplied files.
-- `SOURCE-MANIFEST.json`: current file hashes and source attribution.
+| Parameter | Value |
+| --- | --- |
+| Decimals | 18 |
+| Slot duration | 12 seconds |
+| Slots per epoch | 32 |
+| Genesis validators | 6 |
+| Minimum deposit | 250 MCN |
+| Activation balance | 10,000 MCN |
+| Maximum compounding effective balance | 640,000 MCN |
+| Ejection balance | 8,000 MCN |
+| Execution genesis allocation | 119,940,000 MCN |
+| Genesis stake allocation | 60,000 MCN |
+| Genesis gas limit | 30,000,000 |
+| Genesis base fee | 1 Gwei |
+| Genesis fork | Prague / Electra |
+| First fork transition | Osaka / Fulu, epoch 1 |
 
-Recorded client versions: Geth 1.17.6 and Prysm 7.2.0. Exact commit SHAs,
-client source changes and reproducible builds remain to be supplied.
-Live deployment correspondence and full SSZ validation remain unverified.
+## Files
 
-Generation tools require a prepared Python environment and Prysm prysmctl.
-They generate new random keys and a new genesis, and cannot recreate the supplied
-genesis byte-for-byte without its original public deposit inputs.
-The historical verifier expects generated JSON state and deposit data, which are
-not included, and has not been run against the supplied SSZ.
-The generation wrapper was adapted to accept TREASURY from the environment;
-server installation, startup and peer-management files were removed.
+- `network/contracts/`: deposit contract, compiled artifact and system allocations.
+- `network/consensus/config.yaml`: consensus configuration.
+- `network/genesis/`: execution and consensus genesis.
+- `network/tools/`: genesis preparation and validation.
+- `network/scripts/02-genesis.sh`: genesis generation.
+- `SHA256SUMS`: file checksums.
 
-Do not commit private keys, keystore passwords or JWT secrets.
-Upstream license information is preserved in `network/contracts/`;
-no project-wide license has been selected by the owner.
+Contract sources and compiler settings are listed in
+[PROVENANCE.md](network/contracts/PROVENANCE.md).
+Audit coverage and outstanding requirements are listed in [AUDIT-SCOPE.md](AUDIT-SCOPE.md).
+
+## Genesis generation
+
+Requires Python dependencies from `network/requirements.txt`,
+`network/.venv/bin/python` and `network/bin/prysmctl`.
+Run `network/scripts/02-genesis.sh` with `TREASURY` and `GENESIS_TIME` set.
+
+The generator creates new validator keys and deposit data. It does not reproduce
+the committed genesis without the original deposit inputs.
+`verify-genesis.py` checks generated JSON state and deposit data; it does not
+decode the committed SSZ state.
