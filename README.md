@@ -30,6 +30,8 @@ They contain stale references to five validators and a 3/2 split: the six-valida
 revision records a 3/3 split. Resolve this discrepancy before using the instructions.
 
 Do not commit validator keys, keystore passwords, JWT secrets or node databases.
-Public genesis files from the running network must be collected separately and verified.
+User-provided genesis and configuration are included in `network/genesis/`.
+Initial comparisons are recorded in `GENESIS-VERIFICATION.json`; live deployment
+correspondence and full SSZ validation remain unverified.
 Upstream license information is preserved under `network/contracts/`;
 no project-wide license has been selected by the owner.
