@@ -26,7 +26,7 @@ The archive was rebuilt to preserve historical state; the operator demonstrated 
 
 Public RPC: `~/mcn-rpc`, units `mcn-rpc-geth`/`mcn-rpc-beacon`, upstream HTTP loopback behind HTTPS proxy at rpc.mcnblockchain.com. Intended public modules: eth/net/web3. Collect actual config: check debug/admin/engine exposure, allowed methods, batch/response/timeout limits, CORS and rate limits. No assertion that these controls were verified remotely is made here.
 
-Blockscout versions previously reported: backend 9.0.2, frontend 2.3.5. Beacon explorer at beacon.mcnscan.org is operator-confirmed working; implementation, version, hosting and connection configuration remain unverified. Do not assume it is Dora or beaconcha.in based on the hostname.
+Blockscout versions previously reported: backend 9.0.2, frontend 2.3.5. The beacon explorer at beacon.mcnscan.org runs Dora v1.25.0 with MCN branding (`mcn-dora:v1.25.0-mcn1`). Dora listens on `127.0.0.1:18090` behind Nginx and connects to the local archive beacon REST (`172.30.232.1:23500`) and execution RPC (`172.30.232.1:28545`).
 
 The explorer currently displays a price associated with the existing BNB Chain MCN token. This off-chain display does not establish native MCN market liquidity, a redemption promise, a bridge, stablecoin backing or a consensus price oracle.
 

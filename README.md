@@ -13,10 +13,10 @@ Snapshot prepared **2026-10-19** for the network launched **2026-10-17**. This i
 7. [Completed local checks](evidence/local/RESULTS.md)
 8. [Collect runtime evidence](docs/RUNTIME_EVIDENCE.md)
 
-Public endpoints reported by the operator:
+Public network endpoints:
 
 - Execution explorer: https://mcnscan.org
-- Beacon explorer: https://beacon.mcnscan.org — operator confirmed operational on 2026-10-19; deployment/version not independently inspected.
+- Beacon explorer: https://beacon.mcnscan.org
 - Public execution RPC: https://rpc.mcnblockchain.com
 
 ## Contents
