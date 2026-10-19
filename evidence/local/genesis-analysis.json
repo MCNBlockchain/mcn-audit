@@ -1,0 +1,69 @@
+{
+  "genesis_time": 1792218841,
+  "genesis_validators_root": "0x84f925eff5a85c006900c4be36bedc53b3ec8ec733606a3301c76f7f1e737cf0",
+  "slot": 0,
+  "current_fork_version": "0x23251005",
+  "execution_genesis_hash": "0x6743b8ab3013af80fe35004034ccd91712d3e6d95699d60742d9fb80f76eb224",
+  "validators": [
+    {
+      "index": 0,
+      "pubkey": "0xa889cc3e6e737efc8472cc99ea74ec357c8759132a27c5383b4fa79c701618a9d771f744f44ae404a68603fe82cbb844",
+      "withdrawal_credentials": "0x020000000000000000000000fe4800ca5a48670cc5f591a51f517ba8f682d4ae",
+      "balance_gwei": 100000000000000,
+      "effective_balance_gwei": 10000000000000,
+      "slashed": false,
+      "activation_eligibility_epoch": 0,
+      "activation_epoch": 0,
+      "exit_epoch": 18446744073709551615,
+      "withdrawable_epoch": 18446744073709551615
+    },
+    {
+      "index": 1,
+      "pubkey": "0xa8617d7821ff1f6f6d8dfb0f1cafe0dfb33818be532d1d625a83254564c26e50de9958aa0c76187405158c47b901dd2d",
+      "withdrawal_credentials": "0x020000000000000000000000fe4800ca5a48670cc5f591a51f517ba8f682d4ae",
+      "balance_gwei": 100000000000000,
+      "effective_balance_gwei": 10000000000000,
+      "slashed": false,
+      "activation_eligibility_epoch": 0,
+      "activation_epoch": 0,
+      "exit_epoch": 18446744073709551615,
+      "withdrawable_epoch": 18446744073709551615
+    },
+    {
+      "index": 2,
+      "pubkey": "0xb9d7ca35a542ef78d7fb1ea19eecbd84974fcd392e0f112840886a019a1ee57083993565ccf0f775064315a0257e0cc7",
+      "withdrawal_credentials": "0x020000000000000000000000fe4800ca5a48670cc5f591a51f517ba8f682d4ae",
+      "balance_gwei": 100000000000000,
+      "effective_balance_gwei": 10000000000000,
+      "slashed": false,
+      "activation_eligibility_epoch": 0,
+      "activation_epoch": 0,
+      "exit_epoch": 18446744073709551615,
+      "withdrawable_epoch": 18446744073709551615
+    },
+    {
+      "index": 3,
+      "pubkey": "0xa6ae92beed09be578118c0fbb1659eaa8f4424d06456c63caf69acb61efb79ef5850c66b5dde8ba53f6c29f1f30c6979",
+      "withdrawal_credentials": "0x020000000000000000000000fe4800ca5a48670cc5f591a51f517ba8f682d4ae",
+      "balance_gwei": 100000000000000,
+      "effective_balance_gwei": 10000000000000,
+      "slashed": false,
+      "activation_eligibility_epoch": 0,
+      "activation_epoch": 0,
+      "exit_epoch": 18446744073709551615,
+      "withdrawable_epoch": 18446744073709551615
+    },
+    {
+      "index": 4,
+      "pubkey": "0x87932ac0c6c01e2b666683ebbdb9063148d34171bcb2a80ffd44c2cd7eda2d312cf134919dabc1e75af401729e8c52ad",
+      "withdrawal_credentials": "0x020000000000000000000000fe4800ca5a48670cc5f591a51f517ba8f682d4ae",
+      "balance_gwei": 100000000000000,
+      "effective_balance_gwei": 10000000000000,
+      "slashed": false,
+      "activation_eligibility_epoch": 0,
+      "activation_epoch": 0,
+      "exit_epoch": 18446744073709551615,
+      "withdrawable_epoch": 18446744073709551615
+    }
+  ]
+}

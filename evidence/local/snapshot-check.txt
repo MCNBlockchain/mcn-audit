@@ -1,0 +1,1 @@
+PASS: EL/CL genesis snapshot, SSZ validator registry root, 120M initial supply, deposit runtime/storage, upstream system bytecodes and network parameters.

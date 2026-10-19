@@ -1,0 +1,447 @@
+package params
+
+import (
+	"math"
+	"time"
+
+	fieldparams "github.com/OffchainLabs/prysm/v7/config/fieldparams"
+	"github.com/OffchainLabs/prysm/v7/consensus-types/primitives"
+	"github.com/OffchainLabs/prysm/v7/encoding/bytesutil"
+)
+
+// MainnetConfig returns the configuration to be used in the main network.
+func MainnetConfig() *BeaconChainConfig {
+	if mainnetBeaconConfig.ForkVersionSchedule == nil {
+		mainnetBeaconConfig.InitializeForkSchedule()
+	}
+	return mainnetBeaconConfig.Copy()
+}
+
+const (
+	// Genesis Fork Epoch for the mainnet config.
+	genesisForkEpoch = 0
+	// Altair Fork Epoch for mainnet config.
+	mainnetAltairForkEpoch = 74240 // Oct 27, 2021, 10:56:23am UTC
+	// Bellatrix Fork Epoch for mainnet config.
+	mainnetBellatrixForkEpoch = 144896 // Sept 6, 2022, 11:34:47am UTC
+	// Capella Fork Epoch for mainnet config.
+	mainnetCapellaForkEpoch = 194048 // April 12, 2023, 22:27:35 UTC
+	// Deneb Fork Epoch for mainnet config.
+	mainnetDenebForkEpoch = 269568 // March 13, 2024, 13:55:35 UTC
+	// Electra Fork Epoch for mainnet config
+	mainnetElectraForkEpoch = 364032 // May 7, 2025, 10:05:11 UTC
+	// Fulu Fork Epoch for mainnet config
+	mainnetFuluForkEpoch = 411392 // December 3, 2025, 09:49:11pm UTC
+	// Gloas Fork Epoch for mainnet config
+	mainnetGloasForkEpoch = math.MaxUint64
+)
+
+var mainnetNetworkConfig = &NetworkConfig{
+	AttSubnetKey:               "attnets",
+	SyncCommsSubnetKey:         "syncnets",
+	CustodyGroupCountKey:       "cgc",
+	MinimumPeersInSubnetSearch: 20,
+	ContractDeploymentBlock:    11184524, // Note: contract was deployed in block 11052984 but no transactions were sent until 11184524.
+	BootstrapNodes: []string{
+		// Teku team's bootnode
+		"enr:-KG4QNTx85fjxABbSq_Rta9wy56nQ1fHK0PewJbGjLm1M4bMGx5-3Qq4ZX2-iFJ0pys_O90sVXNNOxp2E7afBsGsBrgDhGV0aDKQu6TalgMAAAD__________4JpZIJ2NIJpcIQEnfA2iXNlY3AyNTZrMaECGXWQ-rQ2KZKRH1aOW4IlPDBkY4XDphxg9pxKytFCkayDdGNwgiMog3VkcIIjKA",
+		"enr:-KG4QF4B5WrlFcRhUU6dZETwY5ZzAXnA0vGC__L1Kdw602nDZwXSTs5RFXFIFUnbQJmhNGVU6OIX7KVrCSTODsz1tK4DhGV0aDKQu6TalgMAAAD__________4JpZIJ2NIJpcIQExNYEiXNlY3AyNTZrMaECQmM9vp7KhaXhI-nqL_R0ovULLCFSFTa9CPPSdb1zPX6DdGNwgiMog3VkcIIjKA",
+		// Prylab team's bootnodes
+		"enr:-Ku4QImhMc1z8yCiNJ1TyUxdcfNucje3BGwEHzodEZUan8PherEo4sF7pPHPSIB1NNuSg5fZy7qFsjmUKs2ea1Whi0EBh2F0dG5ldHOIAAAAAAAAAACEZXRoMpD1pf1CAAAAAP__________gmlkgnY0gmlwhBLf22SJc2VjcDI1NmsxoQOVphkDqal4QzPMksc5wnpuC3gvSC8AfbFOnZY_On34wIN1ZHCCIyg",
+		"enr:-Ku4QP2xDnEtUXIjzJ_DhlCRN9SN99RYQPJL92TMlSv7U5C1YnYLjwOQHgZIUXw6c-BvRg2Yc2QsZxxoS_pPRVe0yK8Bh2F0dG5ldHOIAAAAAAAAAACEZXRoMpD1pf1CAAAAAP__________gmlkgnY0gmlwhBLf22SJc2VjcDI1NmsxoQMeFF5GrS7UZpAH2Ly84aLK-TyvH-dRo0JM1i8yygH50YN1ZHCCJxA",
+		"enr:-Ku4QPp9z1W4tAO8Ber_NQierYaOStqhDqQdOPY3bB3jDgkjcbk6YrEnVYIiCBbTxuar3CzS528d2iE7TdJsrL-dEKoBh2F0dG5ldHOIAAAAAAAAAACEZXRoMpD1pf1CAAAAAP__________gmlkgnY0gmlwhBLf22SJc2VjcDI1NmsxoQMw5fqqkw2hHC4F5HZZDPsNmPdB1Gi8JPQK7pRc9XHh-oN1ZHCCKvg",
+		// Lighthouse team's bootnodes
+		"enr:-Jq4QItoFUuug_n_qbYbU0OY04-np2wT8rUCauOOXNi0H3BWbDj-zbfZb7otA7jZ6flbBpx1LNZK2TDebZ9dEKx84LYBhGV0aDKQtTA_KgEAAAD__________4JpZIJ2NIJpcISsaa0ZiXNlY3AyNTZrMaEDHAD2JKYevx89W0CcFJFiskdcEzkH_Wdv9iW42qLK79ODdWRwgiMo",
+		"enr:-Jq4QN_YBsUOqQsty1OGvYv48PMaiEt1AzGD1NkYQHaxZoTyVGqMYXg0K9c0LPNWC9pkXmggApp8nygYLsQwScwAgfgBhGV0aDKQtTA_KgEAAAD__________4JpZIJ2NIJpcISLosQxiXNlY3AyNTZrMaEDBJj7_dLFACaxBfaI8KZTh_SSJUjhyAyfshimvSqo22WDdWRwgiMo",
+		// EF bootnodes
+		"enr:-KG4QIH7EyRfHFmXLZaG6j0bMvow18k63nKWPfppuKh6iBHMPGM93HX3W3hl7jZdv_Hz8yd_jXVHX2loStJKOZqNRu0BgmlkgnY0gmlwhNRj2kKDaXA2kCoAHKALAA0CAAAAAAAAAF6Jc2VjcDI1NmsxoQMngQgKvKJR49-jugrZ_05LhAHbUlSCwZ_HyqVCb3SXYoN1ZHCCTrqEdWRwNoJOug",
+		"enr:-KG4QJIyNiCpvXrnK8dugxmFckcIduvuQraNlX0GlKwF-XyPeZ-ZG7_yHhsr08K85X1utedECuRXhXiPYJoMogs8ai4BgmlkgnY0gmlwhIHUpj2DaXA2kCYEqIAABAHQAAAAA2GdUACJc2VjcDI1NmsxoQNQbzy36fddhPGH1I6D5rQyj8zUDGWQAkkWS37qBLB_yIN1ZHCCIyiEdWRwNoIjKA",
+		"enr:-KG4QDU7s2q7Cl_qGr2BucsrhN1bKywwstBqMLUtR6f_pOejVAjXLAQsFBOCSgALH_Oy7eshQ2ic7CbFwRZIxZGIMMsBgmlkgnY0gmlwhJB-_BiDaXA2kCQAYYABAADQAAAAAYEgYAGJc2VjcDI1NmsxoQLACT5Njs8OjnCiL4_11wgqunT0BPxQ5PndoKoF6ICNWYN1ZHCCIyiEdWRwNoIjKA",
+		"enr:-KG4QD_qJswcSJKmI_kjUZ-QbUuLUzniIakQbJKgh4YFzluGEKikFzaVoIbS7jpbw2K9hjmWTn7Ha3zyNIm0Ysu-dSgBgmlkgnY0gmlwhLKc14yDaXA2kCoBBP8A9DxKAAAAAAAAAAGJc2VjcDI1NmsxoQOVp1YSg2ZkGenRZi4iGebFira2xZrER7F_WW55-Rd3boN1ZHCCIyiEdWRwNoIjKA",
+		"enr:-KG4QIFbm7kLOmOeiDwjSxLXEN0Ms4advV742CYLpGUCndm2XvAnM9uKVdWpydb8Gpstk44eFDlZlPDyV2gX7uH7KHgBgmlkgnY0gmlwhAXfXlGDaXA2kCoBBP8C8BytAAAAAAAAAAGJc2VjcDI1NmsxoQIAizAK-MKs-s08GzGzoPVIaBmfdKqosqxSkwxUuV2UnIN1ZHCCIyiEdWRwNoIjKA",
+		// Nimbus bootnodes
+		"enr:-LK4QA8FfhaAjlb_BXsXxSfiysR7R52Nhi9JBt4F8SPssu8hdE1BXQQEtVDC3qStCW60LSO7hEsVHv5zm8_6Vnjhcn0Bh2F0dG5ldHOIAAAAAAAAAACEZXRoMpC1MD8qAAAAAP__________gmlkgnY0gmlwhAN4aBKJc2VjcDI1NmsxoQJerDhsJ-KxZ8sHySMOCmTO6sHM3iCFQ6VMvLTe948MyYN0Y3CCI4yDdWRwgiOM",
+		"enr:-LK4QKWrXTpV9T78hNG6s8AM6IO4XH9kFT91uZtFg1GcsJ6dKovDOr1jtAAFPnS2lvNltkOGA9k29BUN7lFh_sjuc9QBh2F0dG5ldHOIAAAAAAAAAACEZXRoMpC1MD8qAAAAAP__________gmlkgnY0gmlwhANAdd-Jc2VjcDI1NmsxoQLQa6ai7y9PMN5hpLe5HmiJSlYzMuzP7ZhwRiwHvqNXdoN0Y3CCI4yDdWRwgiOM",
+	},
+}
+
+var mainnetBeaconConfig = &BeaconChainConfig{
+	// Constants (Non-configurable)
+	FarFutureEpoch:           math.MaxUint64,
+	FarFutureSlot:            math.MaxUint64,
+	BaseRewardsPerEpoch:      4,
+	DepositContractTreeDepth: 32,
+	GenesisDelay:             604800, // 1 week.
+
+	// Misc constant.
+	TargetCommitteeSize:            128,
+	MaxValidatorsPerCommittee:      2048,
+	MaxCommitteesPerSlot:           64,
+	MinPerEpochChurnLimit:          4,
+	ChurnLimitQuotient:             1 << 16,
+	ShuffleRoundCount:              90,
+	MinGenesisActiveValidatorCount: 16384,
+	MinGenesisTime:                 1606824000, // Dec 1, 2020, 12pm UTC.
+	TargetAggregatorsPerCommittee:  16,
+	HysteresisQuotient:             4,
+	HysteresisDownwardMultiplier:   1,
+	HysteresisUpwardMultiplier:     5,
+
+	// Gwei value constants.
+	MinDepositAmount:          1 * 1e9,
+	MaxEffectiveBalance:       32 * 1e9,
+	EjectionBalance:           16 * 1e9,
+	EffectiveBalanceIncrement: 1 * 1e9,
+
+	// Initial value constants.
+	BLSWithdrawalPrefixByte:         byte(0),
+	ETH1AddressWithdrawalPrefixByte: byte(1),
+	CompoundingWithdrawalPrefixByte: byte(2),
+	BuilderWithdrawalPrefixByte:     byte(0xB0),
+	PayloadBuilderVersion:           byte(0),
+	BuilderIndexSelfBuild:           primitives.BuilderIndex(math.MaxUint64),
+	ZeroHash:                        [32]byte{},
+
+	// Time parameter constants.
+	MinAttestationInclusionDelay:     1,
+	SecondsPerSlot:                   12,
+	SlotDurationMilliseconds:         12000,
+	SlotsPerEpoch:                    32,
+	SqrRootSlotsPerEpoch:             5,
+	MinSeedLookahead:                 1,
+	MaxSeedLookahead:                 4,
+	EpochsPerEth1VotingPeriod:        64,
+	SlotsPerHistoricalRoot:           8192,
+	MinValidatorWithdrawabilityDelay: 256,
+	MinBuilderWithdrawabilityDelay:   64,
+	ShardCommitteePeriod:             256,
+	MinEpochsToInactivityPenalty:     4,
+	Eth1FollowDistance:               2048,
+
+	// Fork choice algorithm constants.
+	ProposerScoreBoost:              40,
+	ReorgHeadWeightThreshold:        20,
+	ReorgParentWeightThreshold:      160,
+	ReorgMaxEpochsSinceFinalization: 2,
+	IntervalsPerSlot:                3,
+
+	// Time-based protocol parameters.
+	ProposerReorgCutoffBPS:   primitives.BP(1667),
+	AttestationDueBPS:        primitives.BP(3333),
+	AggregateDueBPS:          primitives.BP(6667),
+	SyncMessageDueBPS:        primitives.BP(3333),
+	ContributionDueBPS:       primitives.BP(6667),
+	AttestationDueBPSGloas:   primitives.BP(2500),
+	AggregateDueBPSGloas:     primitives.BP(5000),
+	SyncMessageDueBPSGloas:   primitives.BP(2500),
+	ContributionDueBPSGloas:  primitives.BP(5000),
+	PayloadAttestationDueBPS: primitives.BP(7500),
+	PayloadDueBPS:            primitives.BP(5000),
+	EquivocationEarlyDueBPS:  primitives.BP(7500),
+
+	// Ethereum PoW parameters.
+	DepositChainID:         1, // Chain ID of eth1 mainnet.
+	DepositNetworkID:       1, // Network ID of eth1 mainnet.
+	DepositContractAddress: "0x00000000219ab540356cBB839Cbe05303d7705Fa",
+
+	// Validator params.
+	RandomSubnetsPerValidator:         1 << 0,
+	EpochsPerRandomSubnetSubscription: 1 << 8,
+
+	// While eth1 mainnet block times are closer to 13s, we must conform with other clients in
+	// order to vote on the correct eth1 blocks.
+	//
+	// Additional context: https://github.com/ethereum/consensus-specs/issues/2132
+	// Bug prompting this change: https://github.com/prysmaticlabs/prysm/issues/7856
+	// Future optimization: https://github.com/prysmaticlabs/prysm/issues/7739
+	SecondsPerETH1Block: 14,
+
+	// State list length constants.
+	EpochsPerHistoricalVector: 65536,
+	EpochsPerSlashingsVector:  8192,
+	HistoricalRootsLimit:      16777216,
+	ValidatorRegistryLimit:    1099511627776,
+
+	// Reward and penalty quotients constants.
+	BaseRewardFactor:               64,
+	WhistleBlowerRewardQuotient:    512,
+	ProposerRewardQuotient:         8,
+	InactivityPenaltyQuotient:      67108864,
+	MinSlashingPenaltyQuotient:     128,
+	ProportionalSlashingMultiplier: 1,
+
+	// Max operations per block constants.
+	MaxProposerSlashings:             16,
+	MaxAttesterSlashings:             2,
+	MaxAttesterSlashingsElectra:      1,
+	MaxAttestations:                  128,
+	MaxAttestationsElectra:           8,
+	MaxDeposits:                      16,
+	MaxVoluntaryExits:                16,
+	MaxWithdrawalsPerPayload:         16,
+	MaxBlsToExecutionChanges:         16,
+	MaxValidatorsPerWithdrawalsSweep: 16384,
+	MaxBuildersPerWithdrawalsSweep:   16384,
+
+	// BLS domain values.
+	DomainBeaconProposer:              bytesutil.Uint32ToBytes4(0x00000000),
+	DomainBeaconAttester:              bytesutil.Uint32ToBytes4(0x01000000),
+	DomainRandao:                      bytesutil.Uint32ToBytes4(0x02000000),
+	DomainDeposit:                     bytesutil.Uint32ToBytes4(0x03000000),
+	DomainVoluntaryExit:               bytesutil.Uint32ToBytes4(0x04000000),
+	DomainSelectionProof:              bytesutil.Uint32ToBytes4(0x05000000),
+	DomainAggregateAndProof:           bytesutil.Uint32ToBytes4(0x06000000),
+	DomainSyncCommittee:               bytesutil.Uint32ToBytes4(0x07000000),
+	DomainSyncCommitteeSelectionProof: bytesutil.Uint32ToBytes4(0x08000000),
+	DomainContributionAndProof:        bytesutil.Uint32ToBytes4(0x09000000),
+	DomainApplicationMask:             bytesutil.Uint32ToBytes4(0x00000001),
+	DomainApplicationBuilder:          bytesutil.Uint32ToBytes4(0x00000001),
+	DomainBLSToExecutionChange:        bytesutil.Uint32ToBytes4(0x0A000000),
+	DomainBeaconBuilder:               bytesutil.Uint32ToBytes4(0x0B000000),
+	DomainPTCAttester:                 bytesutil.Uint32ToBytes4(0x0C000000),
+	DomainProposerPreferences:         bytesutil.Uint32ToBytes4(0x0D000000),
+	DomainBuilderRequestAuth:          bytesutil.Uint32ToBytes4(0x0B000001),
+	DomainBuilderDeposit:              bytesutil.Uint32ToBytes4(0x0E000000),
+
+	// Prysm constants.
+	GenesisValidatorsRoot:          [32]byte{75, 54, 61, 185, 78, 40, 97, 32, 215, 110, 185, 5, 52, 15, 221, 78, 84, 191, 233, 240, 107, 243, 63, 246, 207, 90, 210, 127, 81, 27, 254, 149},
+	GweiPerEth:                     1000000000,
+	BLSSecretKeyLength:             32,
+	BLSPubkeyLength:                48,
+	DefaultBufferSize:              10000,
+	WithdrawalPrivkeyFileName:      "/shardwithdrawalkey",
+	ValidatorPrivkeyFileName:       "/validatorprivatekey",
+	RPCSyncCheck:                   1,
+	EmptySignature:                 [96]byte{},
+	DefaultPageSize:                250,
+	MaxPeersToSync:                 15,
+	SlotsPerArchivedPoint:          2048,
+	GenesisCountdownInterval:       time.Minute,
+	ConfigName:                     MainnetName,
+	PresetBase:                     "mainnet",
+	BeaconStateFieldCount:          21,
+	BeaconStateAltairFieldCount:    24,
+	BeaconStateBellatrixFieldCount: 25,
+	BeaconStateCapellaFieldCount:   28,
+	BeaconStateDenebFieldCount:     28,
+	BeaconStateElectraFieldCount:   37,
+	BeaconStateFuluFieldCount:      38,
+	BeaconStateGloasFieldCount:     46,
+
+	// Slasher related values.
+	WeakSubjectivityPeriod:          54000,
+	PruneSlasherStoragePeriod:       10,
+	SlashingProtectionPruningEpochs: 512,
+
+	// Weak subjectivity values.
+	SafetyDecay: 10,
+
+	// Fork related values.
+	GenesisEpoch:         genesisForkEpoch,
+	GenesisForkVersion:   []byte{0, 0, 0, 0},
+	AltairForkVersion:    []byte{1, 0, 0, 0},
+	AltairForkEpoch:      mainnetAltairForkEpoch,
+	BellatrixForkVersion: []byte{2, 0, 0, 0},
+	BellatrixForkEpoch:   mainnetBellatrixForkEpoch,
+	CapellaForkVersion:   []byte{3, 0, 0, 0},
+	CapellaForkEpoch:     mainnetCapellaForkEpoch,
+	DenebForkVersion:     []byte{4, 0, 0, 0},
+	DenebForkEpoch:       mainnetDenebForkEpoch,
+	ElectraForkVersion:   []byte{5, 0, 0, 0},
+	ElectraForkEpoch:     mainnetElectraForkEpoch,
+	FuluForkVersion:      []byte{6, 0, 0, 0},
+	FuluForkEpoch:        mainnetFuluForkEpoch,
+	GloasForkVersion:     []byte{7, 0, 0, 0},
+	GloasForkEpoch:       mainnetGloasForkEpoch,
+
+	// New values introduced in Altair hard fork 1.
+	// Participation flag indices.
+	TimelySourceFlagIndex: 0,
+	TimelyTargetFlagIndex: 1,
+	TimelyHeadFlagIndex:   2,
+
+	// Incentivization weight values.
+	TimelySourceWeight: 14,
+	TimelyTargetWeight: 26,
+	TimelyHeadWeight:   14,
+	SyncRewardWeight:   2,
+	ProposerWeight:     8,
+	WeightDenominator:  64,
+
+	// Validator related values.
+	TargetAggregatorsPerSyncSubcommittee: 16,
+	SyncCommitteeSubnetCount:             4,
+
+	// Misc values.
+	SyncCommitteeSize:            512,
+	InactivityScoreBias:          4,
+	InactivityScoreRecoveryRate:  16,
+	EpochsPerSyncCommitteePeriod: 256,
+
+	// Updated penalty values.
+	InactivityPenaltyQuotientAltair:         3 * 1 << 24, // 50331648
+	MinSlashingPenaltyQuotientAltair:        64,
+	ProportionalSlashingMultiplierAltair:    2,
+	MinSlashingPenaltyQuotientBellatrix:     32,
+	ProportionalSlashingMultiplierBellatrix: 3,
+	InactivityPenaltyQuotientBellatrix:      1 << 24,
+
+	// Light client
+	MinSyncCommitteeParticipants: 1,
+	MaxRequestLightClientUpdates: 128,
+
+	// Bellatrix
+	TerminalBlockHashActivationEpoch: 18446744073709551615,
+	TerminalBlockHash:                [32]byte{},
+	TerminalTotalDifficulty:          "58750000000000000000000", // Estimated: Sept 15, 2022
+	MaxBytesPerTransaction:           1073741824,
+	MaxTransactionsPerPayload:        1048576,
+	BytesPerLogsBloom:                256,
+	MaxExtraDataBytes:                32,
+	EthBurnAddressHex:                "0x0000000000000000000000000000000000000000",
+	DefaultBuilderGasLimit:           uint64(60000000),
+
+	// Mevboost circuit breaker
+	MaxBuilderConsecutiveMissedSlots: 3,
+	MaxBuilderEpochMissedSlots:       5,
+	// Builder `getHeader` timeout.
+	BuilderHeaderTimeout: BuilderProposalDelayTolerance,
+
+	// Gloas builder circuit breaker
+	BuilderAllowedFailures:         0,
+	BuilderCriticalFailures:        2,
+	BuilderBlacklistPeriod:         1,
+	BuilderCriticalBlacklistPeriod: 256,
+	BuilderFailureBackOffPeriod:    5,
+	BuilderCriticalFailedBuilders:  7,
+	BuilderFailureWeightThreshold:  60,
+
+	// Execution engine timeout value
+	ExecutionEngineTimeoutValue: 8, // 8 seconds default based on: https://github.com/ethereum/execution-apis/blob/main/src/engine/specification.md#core
+
+	// Subnet value
+	BlobsidecarSubnetCount:        6,
+	BlobsidecarSubnetCountElectra: 9,
+
+	MaxPerEpochActivationChurnLimit:  8,
+	MinEpochsForBlobsSidecarsRequest: 4096,
+	MaxRequestBlobSidecars:           768,
+	MaxRequestBlocksDeneb:            128,
+	FieldElementsPerBlob:             4096,
+	MaxBlobCommitmentsPerBlock:       4096,
+	KzgCommitmentInclusionProofDepth: 17,
+	DeprecatedMaxBlobsPerBlock:       6,
+
+	// Values related to electra
+	MinPerEpochChurnLimitElectra:          128_000_000_000,
+	MaxPerEpochActivationExitChurnLimit:   256_000_000_000,
+	MaxEffectiveBalanceElectra:            2048_000_000_000,
+	MinSlashingPenaltyQuotientElectra:     4096,
+	WhistleBlowerRewardQuotientElectra:    4096,
+	PendingDepositsLimit:                  134_217_728,
+	PendingPartialWithdrawalsLimit:        134_217_728,
+	PendingConsolidationsLimit:            262_144,
+	MinActivationBalance:                  32_000_000_000,
+	MaxConsolidationsRequestsPerPayload:   2,
+	MaxPendingPartialsPerWithdrawalsSweep: 8,
+	MaxPendingDepositsPerEpoch:            16,
+	FullExitRequestAmount:                 0,
+	MaxWithdrawalRequestsPerPayload:       16,
+	MaxDepositRequestsPerPayload:          8192, // 2**13 (= 8192)
+	UnsetDepositRequestsStartIndex:        math.MaxUint64,
+	DeprecatedMaxBlobsPerBlockElectra:     9,
+	DeprecatedTargetBlobsPerBlockElectra:  6,
+	MaxRequestBlobSidecarsElectra:         1152,
+
+	// Values related to fulu
+	MaxRequestDataColumnSidecars:          16384,
+	DataColumnSidecarSubnetCount:          128,
+	SamplesPerSlot:                        8,
+	NumberOfCustodyGroups:                 128,
+	CustodyRequirement:                    4,
+	MinEpochsForDataColumnSidecarsRequest: 4096,
+	ValidatorCustodyRequirement:           8,
+	BalancePerAdditionalCustodyGroup:      32_000_000_000,
+
+	// Values related to gloas
+	BuilderPaymentThresholdNumerator:     6,
+	BuilderPaymentThresholdDenominator:   10,
+	MaxRequestPayloads:                   128,
+	ChurnLimitQuotientGloas:              32_768,
+	ConsolidationChurnLimitQuotient:      65_536,
+	MaxPerEpochActivationChurnLimitGloas: 256_000_000_000,
+	MaxBuilderDepositRequestsPerPayload:  64, // 2**6 (= 64)
+	MaxBuilderExitRequestsPerPayload:     16, // 2**4 (= 16)
+
+	// Values related to networking parameters.
+	MaxPayloadSize:                  10 * 1 << 20, // 10 MiB
+	AttestationSubnetCount:          64,
+	AttestationPropagationSlotRange: 32,
+	MaxRequestBlocks:                1 << 10, // 1024
+	TtfbTimeout:                     5,
+	RespTimeout:                     10,
+	MaximumGossipClockDisparity:     500,
+	MessageDomainInvalidSnappy:      [4]byte{00, 00, 00, 00},
+	MessageDomainValidSnappy:        [4]byte{01, 00, 00, 00},
+	MinEpochsForBlockRequests:       33024, // MIN_VALIDATOR_WITHDRAWABILITY_DELAY + CHURN_LIMIT_QUOTIENT / 2 (= 33024, ~5 months)
+	EpochsPerSubnetSubscription:     256,
+	AttestationSubnetExtraBits:      0,
+	AttestationSubnetPrefixBits:     6,
+	SubnetsPerNode:                  2,
+	NodeIdBits:                      256,
+
+	// Values related to the fast confirmation rule.
+	ConfirmationByzantineThreshold: 25,
+
+	BlobSchedule: []BlobScheduleEntry{
+		{
+			Epoch:            412672, // December 9, 2025, 02:21:11pm UTC
+			MaxBlobsPerBlock: 15,
+		},
+		{
+			Epoch:            419072, // January 7, 2026, 01:01:11am UTC
+			MaxBlobsPerBlock: 21,
+		},
+	},
+}
+
+// MainnetTestConfig provides a version of the mainnet config that has a different name
+// and a different fork choice schedule. This can be used in cases where we want to use config values
+// that are consistent with mainnet, but won't conflict or cause the hard-coded genesis to be loaded.
+func MainnetTestConfig() *BeaconChainConfig {
+	mn := MainnetConfig()
+	mn.ConfigName = MainnetTestName
+	FillTestVersions(mn, 128)
+	return mn
+}
+
+// FillTestVersions replaces the fork schedule in the given BeaconChainConfig with test values, using the given
+// byte argument as the high byte (common across forks).
+func FillTestVersions(c *BeaconChainConfig, b byte) {
+	c.GenesisForkVersion = make([]byte, fieldparams.VersionLength)
+	c.AltairForkVersion = make([]byte, fieldparams.VersionLength)
+	c.BellatrixForkVersion = make([]byte, fieldparams.VersionLength)
+	c.CapellaForkVersion = make([]byte, fieldparams.VersionLength)
+	c.DenebForkVersion = make([]byte, fieldparams.VersionLength)
+	c.ElectraForkVersion = make([]byte, fieldparams.VersionLength)
+	c.FuluForkVersion = make([]byte, fieldparams.VersionLength)
+	c.GloasForkVersion = make([]byte, fieldparams.VersionLength)
+
+	c.GenesisForkVersion[fieldparams.VersionLength-1] = b
+	c.AltairForkVersion[fieldparams.VersionLength-1] = b
+	c.BellatrixForkVersion[fieldparams.VersionLength-1] = b
+	c.CapellaForkVersion[fieldparams.VersionLength-1] = b
+	c.DenebForkVersion[fieldparams.VersionLength-1] = b
+	c.ElectraForkVersion[fieldparams.VersionLength-1] = b
+	c.FuluForkVersion[fieldparams.VersionLength-1] = b
+	c.GloasForkVersion[fieldparams.VersionLength-1] = b
+
+	c.GenesisForkVersion[0] = 0
+	c.AltairForkVersion[0] = 1
+	c.BellatrixForkVersion[0] = 2
+	c.CapellaForkVersion[0] = 3
+	c.DenebForkVersion[0] = 4
+	c.ElectraForkVersion[0] = 5
+	c.FuluForkVersion[0] = 6
+	c.GloasForkVersion[0] = 7
+}

@@ -1,0 +1,13 @@
+test_activation_threshold_is_not_contract_minimum (test_deposit.DepositTests.test_activation_threshold_is_not_contract_minimum) ... ok
+test_bls_verification_is_consensus_responsibility (test_deposit.DepositTests.test_bls_verification_is_consensus_responsibility) ... ok
+test_effective_cap_is_not_deposit_ceiling (test_deposit.DepositTests.test_effective_cap_is_not_deposit_ceiling) ... ok
+test_genesis_count_and_root (test_deposit.DepositTests.test_genesis_count_and_root) ... ok
+test_malformed_lengths_rejected (test_deposit.DepositTests.test_malformed_lengths_rejected) ... ok
+test_minimum_rejects_249_accepts_250 (test_deposit.DepositTests.test_minimum_rejects_249_accepts_250) ... ok
+test_non_gwei_amount_rejected (test_deposit.DepositTests.test_non_gwei_amount_rejected) ... ok
+test_wrong_root_rejected (test_deposit.DepositTests.test_wrong_root_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.038s
+
+OK

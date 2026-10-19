@@ -1,0 +1,1 @@
+PASS: solc 0.6.11+commit.5ef660b1.Emscripten.clang reproduces creation/runtime bytecode, ABI and storage layout.

@@ -1,0 +1,24 @@
+# Never commit production credentials, private keys, wallets or databases.
+.env
+*.env
+node.env
+secrets/
+**/secrets/
+**/wallet/
+**/wallets/
+**/keystores/
+**/validator-data/
+**/beacon-data/
+**/chaindata/
+**/jwt.hex
+**/password.txt
+**/nodekey
+**/network-keys
+**/slashing-protection*.json
+**/slashing-protection*.db
+**/*.sqlite*
+**/__pycache__/
+.venv/
+node_modules/
+contracts/node_modules/
+.local-evidence/

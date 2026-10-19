@@ -1,0 +1,7 @@
+{
+  "genesis_hash": "0x6743b8ab3013af80fe35004034ccd91712d3e6d95699d60742d9fb80f76eb224",
+  "export_sha256": "0d0245282c93cc17aa7ed10db9855fa521d45152ec449b6db817e176ba0ad2e2",
+  "method": "Geth v1.17.6 init from supplied execution genesis; export block 0; Keccak256(RLP(header)).",
+  "platform": "darwin-arm64",
+  "limitations": "Local initialization/export; not a live-server binary attestation."
+}
