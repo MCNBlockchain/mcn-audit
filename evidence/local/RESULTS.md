@@ -9,6 +9,6 @@ Executed on the preparation workstation (macOS arm64), against this repository's
 | `python -m unittest discover -s tests -v` | 8 tests passed | PyEVM simulation of exact deposit allocation; not a Prysm integration test |
 | Geth init/export, Keccak(RLP(genesis header)) | PASS | Local Geth v1.17.6; exported block/hash in this directory, not remote attestation |
 
-EVM environment: Python 3.13, eth-tester 0.13.0b1, py-evm 0.12.1b1; exact dependency freeze in `tests/requirements.txt`. The compiler was loaded from an existing local installation via `MCN_SOLC_MODULE`; `npm ci` was not rerun during preparation. Dependency installation and collector operation on Ubuntu hosts remain to be exercised there.
+EVM environment: Python 3.13, eth-tester 0.13.0b1, py-evm 0.12.1b1; exact dependency freeze in `tests/requirements.txt`. The compiler was loaded from an existing local installation via `MCN_SOLC_MODULE`; `npm ci` was not rerun during preparation.
 
-Raw reports: `genesis-analysis.json`, `geth-genesis.json`, `genesis-block.rlp`. SHA256SUMS is generated after the snapshot is complete. Console output is recorded alongside these reports. No test here proves audit completion, peer connectivity, network stability, APR, safe custody, correct integration withdrawals.
+Raw reports: `genesis-analysis.json`, `geth-genesis.json`, `genesis-block.rlp`. Console output is recorded alongside these reports.

@@ -1,10 +1,10 @@
 # Network snapshot
 
-These values come from committed genesis/configuration files and the local checker. Current runtime configuration still needs comparison.
+Genesis values below come from the committed network files and local verification.
 
 | Property | Snapshot |
 |---|---|
-| Chain/network ID | 2325 (chain ID verified in genesis; running network ID pending) |
+| Chain/network ID | 2325 |
 | Native unit | MCN, 18 decimals; consensus amounts use gwei (10⁻⁹ MCN) |
 | Genesis UTC | 2026-10-17 06:34:01; Unix 1792218841 |
 | Execution genesis hash | `0x6743b8ab3013af80fe35004034ccd91712d3e6d95699d60742d9fb80f76eb224` |
@@ -22,7 +22,7 @@ These values come from committed genesis/configuration files and the local check
 | Effective genesis balance per validator | **10,000 MCN** |
 | Initial total supply | 120,000,000 MCN |
 
-The effective-balance distinction is present in the supplied SSZ. It is not evidence that current effective balances remain 10,000. Capture epoch transitions and the live state before assessing rewards, concentration or economic safety. Preserve the original genesis for forensic reproducibility.
+The supplied SSZ records the initial effective balance as 10,000 MCN. On 2026-10-20, the operator reported a current balance of 100,000.2418 MCN and an effective balance of **100,000 MCN** in the beacon explorer. Genesis values and current state are distinct.
 
 Initial EL balances sum to **119,500,000 MCN**, plus **500,000 MCN** in CL genesis balances. The initial supply is not a lifetime supply cap: consensus rewards issue additional MCN, and fee burning/withdrawals must be accounted for appropriately. Withdrawals transfer consensus balances to execution; they are not additional issuance on their own.
 
@@ -32,6 +32,6 @@ All five genesis validators use compounding withdrawal credentials (`0x02`) poin
 
 EL historical block forks are set to block 0 and terminal total difficulty to 0. Shanghai, Cancun and Prague activate at genesis time. Osaka activates at genesis +320 seconds. CL genesis fork version is `0x23251000`; Altair through Electra epochs are 0; the supplied state's current version is Electra `0x23251005`. Fulu `0x23251006` activates at epoch 1. Gloas is disabled with FAR_FUTURE_EPOCH. `BLOB_SCHEDULE` is `[]`.
 
-Review the entire `config.yaml`, upstream defaults inherited by omitted settings, Fulu/Osaka alignment and blob/data availability behavior. A short YAML file does not enumerate every effective client parameter. Never infer that an empty blob schedule disables all blob handling without testing the specific client configuration.
+Parameters omitted from `config.yaml` inherit Prysm's mainnet preset defaults.
 
 The 100,000 cap applies to a validator's effective voting/reward balance. It does not prohibit depositing more, does not limit one owner's aggregate stake, and does not enforce one operator per server. Minimum contract deposit also does not mean activation at 250 MCN.

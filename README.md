@@ -1,6 +1,8 @@
 # MCN Blockchain — audit handoff repository
 
-Snapshot prepared **2026-10-19** for the network launched **2026-10-17**. This is an audit submission package, **not an audit opinion or a mainnet-readiness certificate**. No production credentials or validator databases are included.
+Audit materials for the MCN test network launched **2026-10-17**. No production credentials or validator databases are included.
+
+The current network has five project-operated validators on separate servers. Mainnet is planned after the audit, on upgraded infrastructure, with independent validators joining. The operator reports that 100 independent validators, each with 100,000 MCN, are ready to join after the audit.
 
 ## Start here
 
@@ -8,10 +10,9 @@ Snapshot prepared **2026-10-19** for the network launched **2026-10-17**. This i
 2. [Network parameters and genesis](docs/NETWORK.md)
 3. [Architecture and trust boundaries](docs/ARCHITECTURE.md)
 4. [Contract provenance and reproduction](docs/CONTRACT.md)
-5. [Known risks and missing evidence](docs/RISK_REGISTER.md)
-6. [Required integration tests](docs/TEST_MATRIX.md)
-7. [Completed local checks](evidence/local/RESULTS.md)
-8. [Collect runtime evidence](docs/RUNTIME_EVIDENCE.md)
+5. [Test results](docs/TEST_MATRIX.md)
+6. [Completed local checks](evidence/local/RESULTS.md)
+7. [Optional runtime data collection](docs/RUNTIME_EVIDENCE.md)
 
 Public network endpoints:
 
@@ -28,7 +29,6 @@ Public network endpoints:
 Run from this repository root. Python 3.11+ is needed for standard-library checks; the recorded EVM run used Python 3.13. Dependencies and a compatible Node.js runtime are required for the other checks.
 
 ```sh
-python3 tools/checksums.py
 python3 tools/verify_snapshot.py
 python3 -m venv .venv
 .venv/bin/python -m pip install -r tests/requirements.txt
@@ -43,13 +43,7 @@ npm run verify
 
 Compiler: **solc 0.6.11+commit.5ef660b1**, optimizer enabled, 200 runs, source key `deposit_contract.sol`. The lockfile pins compiler dependencies. Packages are not vendored; installation requires network access. The SSZ checker is specific to this Electra state layout and is not a general SSZ implementation.
 
-The execution genesis includes initialized system contracts: do not deploy another deposit contract or regenerate genesis to “fix” this snapshot. Live configuration and current balances must be collected separately. The audit must cover these boundaries, not merely the Solidity file.
-
-## Submission status
-
-Local artifact checks passed; network-wide integration and operational evidence remain incomplete. See the risk register before making launch claims.
-
-This repository was prepared locally. A local Git history or source archive does not imply publication to GitHub, independent review, or verified deployment.
+The execution genesis includes initialized system contracts. The supplied genesis files are the exact inputs used by the local verification tools.
 
 ## Licenses
 

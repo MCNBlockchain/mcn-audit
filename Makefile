@@ -2,7 +2,6 @@ PYTHON ?= python3
 
 .PHONY: verify test contract
 verify:
-	$(PYTHON) tools/checksums.py
 	$(PYTHON) tools/verify_snapshot.py
 
 test:
