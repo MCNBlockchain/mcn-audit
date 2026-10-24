@@ -1,7 +1,7 @@
-# Historical launch reference only
+# Node launch scripts
 
-These three scripts were copied from the original five-validator launch package. They are not the current service configurations or a standalone installer. They reference files deliberately omitted here (wallets, JWT, node.env, directories).
+`run-geth.sh` records the current Geth startup command supplied by the operator. It enables discovery v4, configures four bootnodes and loads `execution/peers.toml` when present.
 
-The original Geth script has empty bootnodes. The later discovery patch is recorded under ../patches/. No patch or restart has been applied to servers during this audit preparation.
+`run-beacon.sh` and `run-validator.sh` are Prysm launch references.
 
-Use these scripts for change-history review, not as an instruction to replace a live node. In particular, do not regenerate signing keys/genesis, discard slashing protection or delete data. Collect sanitized current scripts and service units to establish the actual deployed revision.
+The scripts use the node deployment layout: `scripts/` alongside `bin/`, `execution/`, `consensus/` and `node.env`. Runtime credentials, wallets and databases are not included in this repository.

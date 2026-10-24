@@ -12,7 +12,7 @@ Current audit test network:
 | scan | 187.126.3.145 | Independent archive Geth/beacon; Docker Blockscout; explorer |
 | rpc | 159.195.129.170 | Independent non-signing full node and public RPC proxy |
 
-The five validators are operated by the project on separate servers. The scan and RPC nodes do not run validators. The network uses static seed peers and bootnode discovery.
+The five validators are operated by the project on separate servers. The scan and RPC nodes do not run validators. Geth runs with discovery v4 enabled and four bootnodes; `execution/peers.toml` supplies its peer configuration.
 
 Mainnet is planned after the audit, on upgraded servers. The operator reports 100 independent validators ready to join after the audit, each with 100,000 MCN.
 
@@ -28,4 +28,4 @@ Blockscout versions previously reported: backend 9.0.2, frontend 2.3.5. The beac
 
 ## Reference scripts
 
-`operations/reference/` contains original launch templates, not a current deployment backup. The original Geth template predates the bootnode discovery change; `operations/patches/configure-geth-discovery.py` records that update.
+[run-geth.sh](../operations/reference/run-geth.sh) records the current Geth startup command: full sync, path state scheme, network ID 2325, discovery v4 and four bootnodes. Public JSON-RPC modules are eth/net/web3 on loopback port 8545; the JWT-authenticated Engine API uses loopback port 8551. The same directory includes Prysm launch references.

@@ -22,7 +22,7 @@ Public network endpoints:
 
 ## Contents
 
-`network/` contains the exact supplied genesis files and public seed peers. `contracts/` contains the modified deposit source, upstream source, one-line diff, compiler input and compiled artifact. `upstream/` contains the particular client source excerpts used to compare defaults/system bytecode, not complete client repositories. `operations/reference/` contains original launch templates, **not attested live service definitions**. `evidence/local/` records locally reproduced checks. `tools/` and `tests/` make those checks repeatable.
+`network/` contains the exact supplied genesis files and public seed peers. `contracts/` contains the modified deposit source, upstream source, one-line diff, compiler input and compiled artifact. `upstream/` contains the particular client source excerpts used to compare defaults/system bytecode, not complete client repositories. `operations/reference/` contains the current Geth launch script supplied by the operator and Prysm launch references. `evidence/local/` records locally reproduced checks. `tools/` and `tests/` make those checks repeatable.
 
 ## Reproduce
 
